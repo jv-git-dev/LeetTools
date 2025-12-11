@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Debuggable/Debuggable.csproj" Id="9dab9835-b283-48da-8784-d6d7b79bd885" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="test/Debuggable.Test/Debuggable.Test.csproj" Id="f83e7ea2-4854-44fc-bee3-2500b00eeebc" />
+  </Folder>
+</Solution>
