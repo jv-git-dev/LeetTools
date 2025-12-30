@@ -5,13 +5,13 @@ namespace LeetTools.Debuggable.Test
     [ExcludeFromCodeCoverage]
     public class ListNodeTests
     {
-        public static IEnumerable<object[]> FromArrayTestData =>
-            [
-                [new object[] { 0, 1, 2, 3, 4, 5, 6, 7 }],
-                [new object[] { 'a', 'b', 'c', 'd' }],
-                [new object[] { 1.0, 1.1, 1.2, 1.3 }],
-                [new object?[] { null }]
-            ];
+        public static TheoryData<object[]> FromArrayTestData => new()
+        {
+                { new object[] { 0, 1, 2, 3, 4, 5, 6, 7 } },
+                { new object[] { 'a', 'b', 'c', 'd' } },
+                { new object[] { 1.0, 1.1, 1.2, 1.3 } },
+                { new object[] { null! }}
+            };
 
         [Theory]
         [MemberData(nameof(FromArrayTestData))]

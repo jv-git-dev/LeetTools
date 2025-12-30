@@ -59,7 +59,6 @@ namespace LeetTools.Debuggable
             return valList;
         }
 
-        /// <inheritdoc/>
         public override string ToString()
         {
             return JsonSerializer.Serialize(ToList());
