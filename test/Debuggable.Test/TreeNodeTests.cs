@@ -1,8 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace LeetTools.Debuggable.Test
+﻿namespace LeetTools.Debuggable.Test
 {
-    [ExcludeFromCodeCoverage]
     public class TreeNodeTests
     {
         [Fact]
