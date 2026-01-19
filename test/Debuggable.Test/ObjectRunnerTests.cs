@@ -1,4 +1,5 @@
-﻿using LeetTools.Debuggable.Exceptions;
+﻿using LeetTools.Debuggable.Events;
+using LeetTools.Debuggable.Exceptions;
 using LeetTools.Debuggable.Test.TestClasses;
 
 namespace LeetTools.Debuggable.Test
@@ -117,6 +118,36 @@ namespace LeetTools.Debuggable.Test
             var runner = new ObjectRunner<Functions>(["functions", "increment"], [[], [1]]);
 
             Assert.Throws<MethodInvocationException>(runner.Run);
+        }
+
+        [Fact]
+        public void MethodExecutedEventNoReturnValue()
+        {
+            var runner = new ObjectRunner<Functions>(["functions", "increment"], [[], []]);
+            var eventRaised = Assert.Raises<MethodExecutedEventArgs>(
+                handler => runner.MethodExecuted += handler,
+                handler => runner.MethodExecuted -= handler,
+                runner.Run);
+
+            Assert.NotNull(eventRaised);
+            Assert.Equal(nameof(Functions.Increment), eventRaised.Arguments.MethodName);
+            Assert.Null(eventRaised.Arguments.ReturnValue);
+        }
+
+        [Fact]
+        public void MethodExecutedEventWithReturnValue()
+        {
+            var returnVal = "test";
+
+            var runner = new ObjectRunner<Functions>(["functions", "ReturnAString"], [[], [returnVal]]);
+            var eventRaised = Assert.Raises<MethodExecutedEventArgs>(
+                handler => runner.MethodExecuted += handler,
+                handler => runner.MethodExecuted -= handler,
+                runner.Run);
+
+            Assert.NotNull(eventRaised);
+            Assert.Equal(nameof(Functions.ReturnAString), eventRaised.Arguments.MethodName);
+            Assert.Equal(returnVal, eventRaised.Arguments.ReturnValue);
         }
     }
 }

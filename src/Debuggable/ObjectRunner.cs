@@ -1,4 +1,6 @@
-﻿using LeetTools.Debuggable.Exceptions;
+﻿using LeetTools.Debuggable.Events;
+using LeetTools.Debuggable.Exceptions;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace LeetTools.Debuggable
@@ -19,6 +21,8 @@ namespace LeetTools.Debuggable
         public object?[][] Arguments { get; set; } = arguments;
 
         private readonly Dictionary<string, MethodInfo> _cachedMethods = [];
+
+        public event EventHandler<MethodExecutedEventArgs>? MethodExecuted;
 
         /// <summary>
         /// Creates an object of type <typeparamref name="T"/> and executes each function in <see cref="FunctionNames"/> in order with its corresponding set of arguments in <see cref="Arguments"/>.
@@ -73,9 +77,14 @@ namespace LeetTools.Debuggable
                     _cachedMethods.Add(FunctionNames[i], methodInfo);
                 }
 
+                var stopWatch = new Stopwatch();
                 try
                 {
-                    methodInfo.Invoke(BaseObject, Arguments[i]);
+                    stopWatch.Restart();
+                    var returnVal = methodInfo.Invoke(BaseObject, Arguments[i]);
+                    stopWatch.Stop();
+
+                    MethodExecuted?.Invoke(this, new MethodExecutedEventArgs(methodInfo.Name, stopWatch.ElapsedMilliseconds, returnVal));
                 }
                 catch (Exception e) //Are there ever exceptions we don't want to catch?
                 {

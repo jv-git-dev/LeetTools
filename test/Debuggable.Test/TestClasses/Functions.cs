@@ -25,5 +25,7 @@
             Number = value;
             SetInvocations++;
         }
+
+        public string ReturnAString(string returnVal) => returnVal;
     }
 }
