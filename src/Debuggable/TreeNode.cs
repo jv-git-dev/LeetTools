@@ -38,11 +38,6 @@ namespace LeetTools.Debuggable
         /// <returns>A level-ordered list of values.</returns>
         public List<T?> ToList()
         {
-            // In order to fill this with null values, we need T to either be a struct or a class so the compiler knows how to handle nullability
-            // After a little looking, it seems like there isn't a simple one-line way to do this
-            // Might need to make a second version of TreeNode where T can be a class?
-            // Low priority because from what I've seen it's usually an int anyway
-            // TODO: Future work.  
             var valList = new List<T?>();
 
             var currentIndex = 0;

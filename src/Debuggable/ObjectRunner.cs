@@ -5,10 +5,6 @@ using System.Reflection;
 
 namespace LeetTools.Debuggable
 {
-    //TODO: The arguments throw a fit if one of the arguments is a list. 
-    //For example: [[[1, 2], [2, 3]]] is unassignable to object[][] because you can't make an object type from a collection expression
-    //Maybe use raw string for arguments?
-    //Reference numbers: 2241, 1912
     /// <summary>
     /// A class used for performing a series of method calls on an instance of type <typeparamref name="T"/>.
     /// </summary>
