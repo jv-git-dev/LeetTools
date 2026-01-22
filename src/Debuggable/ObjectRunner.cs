@@ -125,7 +125,7 @@ namespace LeetTools.Debuggable
                             try
                             {
                                 // TOOD: This could be more elegant.  But Type.IsAssignableFrom only works for inheritance
-                                // This will also handle instancecs where explicit casts exist.
+                                // This will also handle instances where explicit casts exist.
                                 newConstructorArgs.Add(Convert.ChangeType(constructorArgs[i], parameters[i].ParameterType));
                             }
                             catch { }
