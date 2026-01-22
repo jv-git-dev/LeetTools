@@ -130,15 +130,17 @@ namespace LeetTools.Debuggable.Test
                 runner.Run);
 
             Assert.NotNull(eventRaised);
+            Assert.Empty(eventRaised.Arguments.Arguments);
             Assert.Equal(nameof(Functions.Increment), eventRaised.Arguments.MethodName);
             Assert.Null(eventRaised.Arguments.ReturnValue);
         }
 
-        [Fact]
-        public void MethodExecutedEventWithReturnValue()
-        {
-            var returnVal = "test";
+        public static TheoryData<string?> ReturnValueData = ["test", null];
 
+        [Theory]
+        [MemberData(nameof(ReturnValueData))]
+        public void MethodExecutedEventWithReturnValue(string? returnVal)
+        {
             var runner = new ObjectRunner<Functions>(["functions", "ReturnAString"], [[], [returnVal]]);
             var eventRaised = Assert.Raises<MethodExecutedEventArgs>(
                 handler => runner.MethodExecuted += handler,
@@ -147,6 +149,7 @@ namespace LeetTools.Debuggable.Test
 
             Assert.NotNull(eventRaised);
             Assert.Equal(nameof(Functions.ReturnAString), eventRaised.Arguments.MethodName);
+            Assert.Equal(returnVal, eventRaised.Arguments.Arguments[0]);
             Assert.Equal(returnVal, eventRaised.Arguments.ReturnValue);
         }
     }

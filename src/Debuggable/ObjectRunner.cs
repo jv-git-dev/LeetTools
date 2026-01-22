@@ -9,6 +9,12 @@ namespace LeetTools.Debuggable
     //For example: [[[1, 2], [2, 3]]] is unassignable to object[][] because you can't make an object type from a collection expression
     //Maybe use raw string for arguments?
     //Reference numbers: 2241, 1912
+    /// <summary>
+    /// A class used for performing a series of method calls on an instance of type <typeparamref name="T"/>.
+    /// </summary>
+    /// <typeparam name="T">The class to be tested.</typeparam>
+    /// <param name="functionNames">An ordered list of case-insensitive function names.</param>
+    /// <param name="arguments">The arguments corresponding to the functions defined in <paramref name="functionNames"/>.</param>
     public class ObjectRunner<T>(string[] functionNames, object?[][] arguments) where T : class
     {
         /// <summary>
@@ -16,12 +22,21 @@ namespace LeetTools.Debuggable
         /// </summary>
         public T? BaseObject { get; private set; }
 
+        /// <summary>
+        /// An ordered list of case-insensitive function names.
+        /// </summary>
         public string[] FunctionNames { get; set; } = functionNames;
 
+        /// <summary>
+        /// The arguments corresponding to the functions defined in <see cref="FunctionNames"/>.
+        /// </summary>
         public object?[][] Arguments { get; set; } = arguments;
 
         private readonly Dictionary<string, MethodInfo> _cachedMethods = [];
 
+        /// <summary>
+        /// An event raised on each method execution for diagnostic and performance profiling purposes.
+        /// </summary>
         public event EventHandler<MethodExecutedEventArgs>? MethodExecuted;
 
         /// <summary>
@@ -84,7 +99,7 @@ namespace LeetTools.Debuggable
                     var returnVal = methodInfo.Invoke(BaseObject, Arguments[i]);
                     stopWatch.Stop();
 
-                    MethodExecuted?.Invoke(this, new MethodExecutedEventArgs(methodInfo.Name, stopWatch.ElapsedMilliseconds, returnVal));
+                    MethodExecuted?.Invoke(this, new MethodExecutedEventArgs(methodInfo.Name, Arguments[i], stopWatch.ElapsedMilliseconds, returnVal));
                 }
                 catch (Exception e) //Are there ever exceptions we don't want to catch?
                 {
